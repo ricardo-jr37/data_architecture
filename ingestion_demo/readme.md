@@ -18,6 +18,10 @@ O projeto é estruturado da seguinte forma:
   - **Dockerfile**: Define o ambiente para o serviço PySpark.
   - **silver_script.py**: Script PySpark para processar dados da camada Bronze e salvar resultados na camada Silver.
 
+- **streaming_ingestion/**: Contém o serviço PySpark para streaming de dados.
+  - **Dockerfile**: Define o ambiente para o serviço PySpark.
+  - **streaming_script.py**: Script PySpark para processar dados em streaming
+
 - **setup.sql**: Script SQL para criar tabelas e popular dados fictícios no banco de dados PostgreSQL.
 
 - **docker-compose.yml**: Arquivo de configuração do Docker Compose para orquestrar todos os serviços.
