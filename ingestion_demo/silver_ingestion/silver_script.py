@@ -11,10 +11,10 @@ def main():
     bronze_path = "/data/bronze"
     
     # Leitura dos dados da camada Bronze
-    transacoes_df = spark.read.csv(f"{bronze_path}/transacoes.csv", header=True, inferSchema=True)
-    imoveis_df = spark.read.csv(f"{bronze_path}/imoveis.csv", header=True, inferSchema=True)
-    condominios_df = spark.read.csv(f"{bronze_path}/condominios.csv", header=True, inferSchema=True)
-    moradores_df = spark.read.csv(f"{bronze_path}/moradores.csv", header=True, inferSchema=True)
+    transacoes_df = spark.read.csv(f"{bronze_path}/transacoes/transacoes.csv", header=True, inferSchema=True)
+    imoveis_df = spark.read.csv(f"{bronze_path}/imoveis/imoveis.csv", header=True, inferSchema=True)
+    condominios_df = spark.read.csv(f"{bronze_path}/condominios/condominios.csv", header=True, inferSchema=True)
+    moradores_df = spark.read.csv(f"{bronze_path}/moradores/moradores.csv", header=True, inferSchema=True)
 
     # Calcular o total de transações por condomínio
     transacoes_por_condominio_df = transacoes_df.join(

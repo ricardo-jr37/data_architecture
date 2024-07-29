@@ -26,7 +26,10 @@ services:
       AWS_SECRET_ACCESS_KEY: YOUR_SECRET_ACCESS_KEY
       AWS_REGION: YOUR_REGION
     volumes:
-      - ./data:/data 
+      - ./data/bronze/condominios:/data/bronze/condominios
+      - ./data/bronze/imoveis:/data/bronze/imoveis
+      - ./data/bronze/moradores:/data/bronze/moradores
+      - ./data/bronze/transacoes:/data/bronze/transacoes 
     networks:
       - dbnet
 
@@ -41,6 +44,20 @@ services:
       AWS_SECRET_ACCESS_KEY: YOUR_SECRET_ACCESS_KEY
       AWS_REGION: YOUR_REGION
     volumes:
+      - ./data/bronze:/data/bronze  
+      - ./data/silver:/data/silver  
+    networks:
+      - dbnet
+
+  spark-streaming:
+    build: ./streaming_ingestion
+    depends_on:
+      - bronze-ingestion
+    container_name: ingestion_demo-streaming-ingestion
+    volumes:
+      - ./data/streaming:/data/streaming
+      - ./data/streaming_results:/data/streaming_results
+      - ./data/streaming_checkpoint:/data/streaming_checkpoint
       - ./data/bronze:/data/bronze  
       - ./data/silver:/data/silver  
     networks:

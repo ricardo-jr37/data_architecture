@@ -45,7 +45,7 @@ def upload_local(
     table
 ):
     print(df)   
-    df.to_csv(f'./data/bronze/{table}.csv', index=False)
+    df.to_csv(f'./data/bronze/{table}/{table}.csv', index=False)
 
 def ingestion_data(table):
     df = fetch_data(table)
