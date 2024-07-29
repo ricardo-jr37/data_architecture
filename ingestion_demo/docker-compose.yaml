@@ -1,0 +1,54 @@
+version: '3.1'
+
+services:
+  db:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: condominios_db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./setup.sql:/docker-entrypoint-initdb.d/setup.sql
+    networks:
+      - dbnet
+
+  bronze-ingestion:
+    build:
+      context: ./bronze_ingestion
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    environment:
+      AWS_ACCESS_KEY_ID: YOUR_ACCESS_KEY_ID
+      AWS_SECRET_ACCESS_KEY: YOUR_SECRET_ACCESS_KEY
+      AWS_REGION: YOUR_REGION
+    volumes:
+      - ./data:/data 
+    networks:
+      - dbnet
+
+  silver-ingestion:
+    build:
+      context: ./silver_ingestion
+      dockerfile: Dockerfile
+    depends_on:
+      - bronze-ingestion
+    environment:
+      AWS_ACCESS_KEY_ID: YOUR_ACCESS_KEY_ID
+      AWS_SECRET_ACCESS_KEY: YOUR_SECRET_ACCESS_KEY
+      AWS_REGION: YOUR_REGION
+    volumes:
+      - ./data/bronze:/data/bronze  
+      - ./data/silver:/data/silver  
+    networks:
+      - dbnet
+
+volumes:
+  db-data:
+
+networks:
+  dbnet:
+    driver: bridge
